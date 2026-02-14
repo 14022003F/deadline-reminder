@@ -19,7 +19,7 @@ function render(){
   const list = document.getElementById("list");
   list.innerHTML="";
 
-  deadlines.forEach(d=>{
+  deadlines.forEach((d,index)=>{
     const diff = new Date(d.date) - new Date();
     const hours = Math.floor(diff/1000/60/60);
     const days = Math.floor(hours/24);
@@ -32,11 +32,20 @@ function render(){
     div.innerHTML = `
       <strong>${d.title}</strong><br>
       ${days} days ${hours%24} hrs left
+      <br><br>
+      <button onclick="deleteDeadline(${index})">Delete</button>
     `;
 
     list.appendChild(div);
   });
 }
+
+function deleteDeadline(index){
+  deadlines.splice(index,1);
+  save();
+  render();
+}
+
 
 setInterval(render,1000);
 render();
